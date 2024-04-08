@@ -33,9 +33,10 @@ jobs:
     - name: Deploy to gh-pages
       run: |
         git checkout -b gh-pages || true
-        mkdir -p docs
-        rm -rf *
+        shopt -s extglob # Habilitar coincidencias de patrones extendidos
+        rm -rf !("docs") # Borrar todo excepto la carpeta 'docs'
         mv -f docs/* .
+        rm -rf docs # Borrar la carpeta 'docs' (si está vacía)
         git add .
         git commit -m "Deploy to gh-pages"
         git push origin gh-pages
