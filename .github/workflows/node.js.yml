@@ -33,8 +33,9 @@ jobs:
     - name: Deploy to gh-pages
       run: |
         git checkout -b gh-pages || true
+        mkdir -p docs
         rm -rf *
-        mv docs/* .
+        mv -f docs/* .
         git add .
         git commit -m "Deploy to gh-pages"
         git push origin gh-pages
