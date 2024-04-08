@@ -31,6 +31,8 @@ jobs:
 
 
     - name: Deploy to gh-pages
+      env:
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
       run: |
         git checkout -b gh-pages || true
         shopt -s extglob # Habilitar coincidencias de patrones extendidos
@@ -39,4 +41,4 @@ jobs:
         rm -rf docs # Borrar la carpeta 'docs' (si está vacía)
         git add .
         git commit -m "Deploy to gh-pages"
-        git push origin gh-pages
+         git push --force --quiet "https://${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" gh-pages
