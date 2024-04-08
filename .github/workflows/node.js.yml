@@ -37,7 +37,8 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
       run: |
-        git checkout -b gh-pages || true
+        git fetch --all # Obtener todos los cambios remotos
+        git checkout -b gh-pages origin/gh-pages # Cambiar a la rama gh-pages remota
         shopt -s extglob # Habilitar coincidencias de patrones extendidos
         rm -rf !("docs") # Borrar todo excepto la carpeta 'docs'
         mv -f docs/* .
