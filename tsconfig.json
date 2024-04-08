@@ -3,7 +3,7 @@
     "target": "ESNext",
     "jsx": "preserve",
     "lib": ["DOM", "ESNext"],
-    "outDir": "docs",
+    "outDir": "./docs",
     "baseUrl": ".",
     "module": "ESNext",
     "moduleResolution": "node",
