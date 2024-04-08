@@ -12,6 +12,9 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.ref }}
+        token: ${{ secrets.GH_TOKEN }}
 
     - name: Use Node.js
       uses: actions/setup-node@v2
@@ -41,5 +44,4 @@ jobs:
         rm -rf docs # Borrar la carpeta 'docs' (si está vacía)
         git add .
         git commit -m "Deploy to gh-pages"
-        git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}
         git push origin gh-pages
