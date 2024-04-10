@@ -129,7 +129,6 @@ export default defineComponent({
         <v-card
           color="secondary"
           dark
-          class="custom-card"
           id="card1"
           ref="card1"
         >
