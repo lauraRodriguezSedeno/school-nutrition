@@ -2,8 +2,8 @@
 import Cookies from "js-cookie";
 import {defineComponent} from "vue";
 import router from "../router";
-import {doc, getDoc} from "firebase/firestore";
-import {db} from "../plugins/firebase";
+import {getFirestore, collection, getDocs, doc, updateDoc, deleteField, getDoc} from 'firebase/firestore';
+import {alumnosRef, db} from "../plugins/firebase";
 import {DoughnutChart} from "vue-chart-3";
 import {Chart, registerables} from "chart.js";
 
@@ -81,6 +81,23 @@ export default defineComponent({
     return {}
   },
   methods: {
+    async reset() {
+      // Using database firestore remove property
+      const q = collection(db, 'alumnos');
+      getDocs(q).then(docu => {
+        docu.forEach(result => {
+          const docRef = doc(db, "alumnos", result.id);
+          // Actualiza el documento
+          updateDoc(docRef, {
+            "encuesta2": deleteField()
+          }).then(() => {
+            console.log(`Se eliminó la encuesta2 del documento con ID: ${result.id}`);
+          }).catch((error) => {
+            console.log(`Error eliminando encuesta2 del documento: `, error);
+          });
+        })
+      })
+    },
     logout() {
       Cookies.remove("admin")
       Cookies.remove("app_uid")
@@ -95,13 +112,18 @@ export default defineComponent({
   <v-app-bar :elevation="2" color="primary">
 
     <v-app-bar-title>Panel del profesor</v-app-bar-title>
+    <v-btn prepend-icon="mdi-trash-can"
+           @click="reset">
+      Reiniciar encuesta 2
+    </v-btn>
     <template v-slot:append>
+      <!--button for reset all activities -->
       <v-btn @click="logout" icon="mdi-exit-to-app"></v-btn>
     </template>
   </v-app-bar>
   <v-container fluid>
     <v-row no-gutters>
-      <v-col cols="6" class="pa-2"
+      <v-col cols="12" class="pa-2"
              id="contenedor"
              ref="contenedor">
         <v-card
@@ -149,16 +171,16 @@ export default defineComponent({
           </v-data-table>
         </v-card>
       </v-col>
-      <v-col cols="6" class="pa-2">
-        <v-card
-          class="custom-card"
-        >
-          <v-card-title>Resultados globales</v-card-title>
-          <DoughnutChart class="ma-5" :chartData="datosMedios"/>
-          <!-- contenido de la tarjeta aquí -->
-        </v-card>
-      </v-col>
     </v-row>
+        <v-row no-gutters>
+          <v-col cols="12" class="pa-2">
+            <v-card
+            >
+              <v-card-title>Resultados globales de la primera encuesta</v-card-title>
+              <DoughnutChart class="ma-5" :chartData="datosMedios"/>
+            </v-card>
+          </v-col>
+        </v-row>
   </v-container>
 </template>
 
