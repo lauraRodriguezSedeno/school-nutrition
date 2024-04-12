@@ -10,12 +10,19 @@ import Login from '../pages/Login.vue'
 import Calendario from '../pages/Calendario.vue'
 import Encuesta from '../pages/Encuesta1.vue'
 import Encuesta2 from '../pages/Encuesta2.vue'
+import Inicio from '../pages/Inicio.vue'
 import Cookies from 'js-cookie'
 import PanelProfe from "../pages/PanelProfesorado.vue";
 
 const routes = [
   {
-    path: '/', redirect: {name: "calendario"}, name: 'home',
+    path: '/', redirect: {name: "inicio"}, name: 'inicio',
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/inicio',  component: Inicio, name: 'inicio',
     meta: {
       requiresAuth: true
     }

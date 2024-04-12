@@ -13,6 +13,7 @@
         </v-list-item-media>
         <v-list-item title="Ciencias Naturales 🔬💻 TIC" subtitle="Diseñada por la docente Laura Rodriguez Sedeño"></v-list-item>
         <v-divider></v-divider>
+        <v-list-item link title="Inicio" to="inicio"></v-list-item>
         <v-list-item link title="Calendario" to="calendario"></v-list-item>
         <v-list-item link title="1º Encuesta" to="encuesta"></v-list-item>
         <v-list-item link title="2º Encuesta" to="encuesta2"></v-list-item>

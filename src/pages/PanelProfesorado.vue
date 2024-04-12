@@ -30,6 +30,10 @@ export default defineComponent({
         title: 'Alumno',
       },
       {
+        key: 'email',
+        title: 'Email',
+      },
+      {
         key: 'calendario',
         title: 'calendario',
       },
@@ -60,20 +64,22 @@ export default defineComponent({
       let no_saludable = 10 - saludable - neutro;
       let nota2 = Math.floor(Math.random() * 11);
 
-      totalSaludable+=saludable
-      totalneutro+=neutro
-      totaNoSaludable+=no_saludable
-
+      totalSaludable += saludable
+      totalneutro += neutro
+      totaNoSaludable += no_saludable
+      let name = nombres[i % nombres.length];
+      let mail = name.replace(/ /g, ".").toLowerCase() + "@educaconlaura.edu";
       datos.push({
-        nombre: nombres[i % nombres.length],
+        nombre: name,
         calendario: calendarios[Math.floor(Math.random() * 2)],
+        email: mail,
         nota1: "Saludable: " + saludable + ", Neutro: " + neutro + ", No saludable: " + no_saludable,
         nota2: nota2
       });
     }
-  this.datosMedios.datasets[0].data[0] = totalSaludable
-  this.datosMedios.datasets[0].data[1] = totalneutro
-  this.datosMedios.datasets[0].data[2] = totaNoSaludable
+    this.datosMedios.datasets[0].data[0] = totalSaludable
+    this.datosMedios.datasets[0].data[1] = totalneutro
+    this.datosMedios.datasets[0].data[2] = totaNoSaludable
     console.log(datos);
     this.alumnos = datos
   },
@@ -127,10 +133,10 @@ export default defineComponent({
              id="contenedor"
              ref="contenedor">
         <v-card
-          color="secondary"
-          dark
-          id="card1"
-          ref="card1"
+            color="secondary"
+            dark
+            id="card1"
+            ref="card1"
         >
           <v-card-item class="bg-orange-darken-4"
                        id="cabezera"
@@ -140,9 +146,9 @@ export default defineComponent({
             </v-card-title>
             <template v-slot:append>
               <v-btn
-                color="white"
-                icon="mdi-plus"
-                size="small"
+                  color="white"
+                  icon="mdi-plus"
+                  size="small"
               ></v-btn>
             </template>
           </v-card-item>
@@ -150,36 +156,36 @@ export default defineComponent({
           <v-divider></v-divider>
           <template v-slot:text>
             <v-text-field
-              id="cabezera2"
-              ref="cabezera2"
-              v-model="search"
-              label="Search"
-              prepend-inner-icon="mdi-magnify"
-              variant="outlined"
-              hide-details
-              single-line
+                id="cabezera2"
+                ref="cabezera2"
+                v-model="search"
+                label="Search"
+                prepend-inner-icon="mdi-magnify"
+                variant="outlined"
+                hide-details
+                single-line
             ></v-text-field>
           </template>
 
           <v-data-table
-            class="child"
-            :headers="headers"
-            :items="alumnos"
-            :search="search"
+              class="child"
+              :headers="headers"
+              :items="alumnos"
+              :search="search"
           >
           </v-data-table>
         </v-card>
       </v-col>
     </v-row>
-        <v-row no-gutters>
-          <v-col cols="12" class="pa-2">
-            <v-card
-            >
-              <v-card-title>Resultados globales de la primera encuesta</v-card-title>
-              <DoughnutChart class="ma-5" :chartData="datosMedios"/>
-            </v-card>
-          </v-col>
-        </v-row>
+    <v-row no-gutters>
+      <v-col cols="12" class="pa-2">
+        <v-card
+        >
+          <v-card-title>Resultados globales de la primera encuesta</v-card-title>
+          <DoughnutChart class="ma-5" :chartData="datosMedios"/>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
