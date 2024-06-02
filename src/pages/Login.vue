@@ -26,6 +26,10 @@ export default defineComponent({
   methods: {
     async submit() {
       this.loading = true
+      if (this.userName.length < 1) {
+        this.loading = false
+        return
+      }
       if (this.userName == "profesor") {
         if (this.password == "claveprofe") {
           console.log("voy al panel profe")
@@ -84,7 +88,7 @@ export default defineComponent({
               <v-text-field
                 @input="() => {showPasswordField = userName == 'profesor'}"
                 v-model="userName"
-                label="Nomber"
+                label="Nombre"
                 hint="nombre_primerApellido_segundoApellido"
               ></v-text-field>
 
