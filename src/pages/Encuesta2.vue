@@ -15,6 +15,7 @@ export default defineComponent({
     preguntas: preguntas2,
     puntos: new Map<number, boolean>(),
     respuestas: [],
+    pressedKeys: "",
     rules: [
       value => {
         if (value) return true
@@ -37,6 +38,11 @@ export default defineComponent({
   }),
   mounted() {
     this.fillUser()
+    this.pressedKeys = ""
+    window.addEventListener('keydown', this.keydownHandler);
+  },
+  beforeUnmount() {
+    window.removeEventListener('keydown', this.keydownHandler);
   },
   components: {},
   methods: {
@@ -81,7 +87,33 @@ export default defineComponent({
     },
     calcularNotaSobreDiez(notaObtenida) {
       return (notaObtenida / 10) * 10;
-    }
+    },
+    keydownHandler(e) {
+      this.pressedKeys += e.key;
+      if (this.pressedKeys.toLowerCase() === "vic") {
+        this.executeFunction();
+      } else if (!"vic".startsWith(this.pressedKeys.toLowerCase())) {
+        console.log(this.pressedKeys);
+        this.pressedKeys = ""
+        console.log("Pressed Keys reset")
+      }
+    },
+    executeFunction() {
+      // Manejo del comando invisible aquí
+      // Luego podrías querer resetear el string de teclas presionadas
+      let autoRespuestas = ['respuesta0', 'respuesta1', 'respuesta2', 'respuesta3', 'respuesta4', 'respuesta5', 'respuesta6', 'respuesta7', 'respuesta8', 'respuesta9'];
+      for (let i=0; i<10; i++) {
+        this['respuestas'+i] = autoRespuestas[i];
+        let item = this.preguntas[i];
+        let rnd = Math.floor(Math.random() * 2);
+        console.log(rnd);
+        let it = item.respuestas[rnd];
+        console.log(it)
+        this.puntos.set(i, it.correcta);
+      }
+      this.submit()
+      this.pressedKeys = "";
+    },
   }
 });
 </script>
@@ -89,7 +121,7 @@ export default defineComponent({
 <template>
   <v-container fill-height fluid class="d-flex fill-height align-center justify-center">
     <v-card color="#FAFAFA" v-if="!ejercicioTerminado" class="flex-grow-1">
-      <v-card-title>La vida cotidiana: ¡Descúbrete!</v-card-title>
+      <v-card-title>Hábitos saludables y no saludables para la salud</v-card-title>
       <form class="mt-4" @submit.prevent="submit">
         <v-row
           v-for="i in 10"

@@ -15,6 +15,7 @@ export default defineComponent({
 
   computed: {},
   data: () => ({
+    pressedKeys: "",
     preguntas: preguntas1,
     puntos: new Map<number, String>(),
     total: new Map<number, number>([
@@ -56,6 +57,11 @@ export default defineComponent({
   }),
   mounted() {
     this.fillUser()
+    this.pressedKeys = ""
+    window.addEventListener('keydown', this.keydownHandler);
+  },
+  beforeUnmount() {
+    window.removeEventListener('keydown', this.keydownHandler);
   },
   components: {DoughnutChart},
   methods: {
@@ -87,6 +93,9 @@ export default defineComponent({
     },
     async submit() {
       this.total = 0
+      this.testData.datasets[0].data[0] = 0;
+      this.testData.datasets[0].data[1] = 0;
+      this.testData.datasets[0].data[2] = 0;
       for (const value of this.puntos.values()) {
         this.testData.datasets[0].data[value] += 1
       }
@@ -103,7 +112,33 @@ export default defineComponent({
     },
     cambiarPuntos(item: preguntaTest, preguntaSeleccionada, index: number) {
       this.puntos.set(index, item.respuestas.find(value => preguntaSeleccionada == value.titulo).puntos)
-    }
+    },
+    keydownHandler(e) {
+      this.pressedKeys += e.key;
+      if (this.pressedKeys.toLowerCase() === "vic") {
+        this.executeFunction();
+      } else if (!"vic".startsWith(this.pressedKeys.toLowerCase())) {
+        console.log(this.pressedKeys);
+        this.pressedKeys = ""
+        console.log("Pressed Keys reset")
+      }
+    },
+    executeFunction() {
+      // Manejo del comando invisible aquí
+      // Luego podrías querer resetear el string de teclas presionadas
+      let autoRespuestas = ['respuesta0', 'respuesta1', 'respuesta2', 'respuesta3', 'respuesta4', 'respuesta5', 'respuesta6', 'respuesta7', 'respuesta8', 'respuesta9'];
+      for (let i=0; i<10; i++) {
+        this['respuestas'+i] = autoRespuestas[i];
+        let item = this.preguntas[i];
+        let rnd = Math.floor(Math.random() * 3);
+        console.log(rnd);
+        let it = item.respuestas[rnd];
+        console.log(it)
+        this.puntos.set(i, it.puntos);
+      }
+      this.submit()
+      this.pressedKeys = "";
+    },
   }
 });
 </script>
@@ -111,7 +146,7 @@ export default defineComponent({
 <template>
   <v-container fill-height fluid>
     <v-card v-if="showQuestions" color="#FAFAFA">
-      <v-card-title>La vida cotidiana: ¡Descúbrete!</v-card-title>
+      <v-card-title>Acciones beneficiosas o perjudiciales para la salud</v-card-title>
       <form class="mt-4" @submit.prevent="submit">
         <v-row
           v-for="i in 10"

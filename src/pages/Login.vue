@@ -72,7 +72,7 @@ export default defineComponent({
            justify="center">
       <v-col>
         <v-alert v-if="errorExist"
-                 title="Error iniciando sesion"
+                 title="Error iniciando sesión"
                  :text="errorText"
                  type="error"
                  variant="tonal"
@@ -82,7 +82,7 @@ export default defineComponent({
     <v-row align="center"
            justify="center">
       <v-col>
-        <v-card class="mx-auto" max-width="400" title="Inicio de sesion">
+        <v-card class="mx-auto" max-width="400" title="Inicio de sesión">
           <v-form validate-on="submit lazy" @submit.prevent="submit">
             <v-card-item>
               <v-text-field
@@ -103,7 +103,7 @@ export default defineComponent({
               <v-btn
                 :loading="loading"
                 class="mt-2"
-                text="¡Vamos alla!"
+                text="¡Vamos allá!"
                 type="submit"
                 block
               ></v-btn>

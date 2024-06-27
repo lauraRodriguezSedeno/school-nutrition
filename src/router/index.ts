@@ -57,7 +57,7 @@ const routes = [
   {
     path: '/:pathMatch(.*)*',
     name: 'not-found',
-    redirect: {name: "calendario"}
+    redirect: {name: "inicio"}
   }
 ]
 
